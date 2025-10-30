@@ -30,20 +30,26 @@
 
 ## 實作步驟
 
-### Sprint 1 — PE Loader + mmap
+### Sprint 1 — PE Loader + mmap (已完成)
 
 - 完成對 PE header 解析、section mapping 、import resolution 的 userland 實作。
 - ntcore.ko 提供執行 VirtualAlloc/Free/Protect ioctl。
+- 實現基本記憶體管理功能 (NtAllocateVirtualMemory, NtFreeVirtualMemory, NtProtectVirtualMemory)
+- 實現物件管理系統基礎 (NtCreateObject, NtClose)
+- 建立用戶空間與內核空間通信框架
 
-### Sprint 2 — Process / Thread
+### Sprint 2 — Process / Thread (進行中)
 
 - NtCreateProcess/NtCreateThread 實作：映射到 clone()/pthread 與 task_struct 資料結構。
 - handle table 與 PID mapping 定義與執行。
+- 實現進程和線程的生命週期管理
+- 實現基本同步原語（事件、互斥鎖、信號量）
 
 ### Sprint 3 — File I/O
 
 - NtCreateFile/NtReadFile/NtWriteFile 映射到 Linux VFS。
 - 路徑轉接：C:\ -> /mnt/c/ 類似路徑映射器。
+- 實現文件系統相關的 NT API
 
 ### Sprint 4 — Synchronization + Exception
 
