@@ -1,0 +1,3 @@
+# 虛擬 PE 文件用於測試
+# 這不是實際的 PE 文件，僅用於測試 PE Loader 是否能正確識別無效文件
+This is not a valid PE file for testing purposes.

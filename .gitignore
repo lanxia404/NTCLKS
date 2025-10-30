@@ -1,0 +1,128 @@
+# Build artifacts
+build/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# C/C++ 编译相关文件
+*.o
+*.a
+*.so
+*.ko
+*.mod.c
+*.mod.o
+*.dwo
+*.d
+*.gcno
+*.gcda
+*.gcov
+*.stackdump
+*.pc
+*.plist
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.tmp
+*.log
+*.out
+
+# Editor-specific files
+*.orig
+*.rej
+*~
+
+# Debug and profile files
+*.dSYM/
+profile/
+coverage/
+
+# Additional IDE and build-related files
+tags
+cscope.*
+compile_commands.json
+*.bin
+*.elf
+*.hex
+*.lst
+*.map
+*.srec
+*.zip
+*.tar
+*.gz
+*.bz2
+*.xz
+*.deb
+*.rpm
+*.apk
+*.pkg.tar.xz
+*.core
+
+# Various tool-specific files
+.autotools
+autom4te.cache
+.libs
+.deps
+*.la
+*.lo
+
+# Qt related files
+*.moc
+*.moc.cpp
+*.qm
+*.prl
+*.pro.user
+
+# Doxygen
+doc/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.manifest
+Makefile
+
+# Conan
+conanbuildinfo.txt
+conaninfo.txt
+conan.lock
+
+# Global ignore files
+*.[oa]
+*.pyc
+*.pyo
+*.exe
+*.dll
+*.dylib
+*.so
+*.jar
+*.war
+*.tar.gz
+*.tar.xz
+*.orig.tar.*
+*.patch
+*.rej
+
+# GCC compilation
+*.i
+*.s
+*.ii
+
+# Clang compilation
+*.bc
+*.hmap
+*.modulemap
+
+# Code coverage
+coverage/
+*.lcov
+*.info
