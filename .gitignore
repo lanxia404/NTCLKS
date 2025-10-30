@@ -89,7 +89,6 @@ doc/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.manifest
-Makefile
 
 # Conan
 conanbuildinfo.txt

@@ -21,7 +21,7 @@ static long ntcore_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 }
 
 static struct file_operations fops = {
-    .unlocked_ioctl = ntcore_ioctl,o
+    .unlocked_ioctl = ntcore_ioctl,
 };
 
 static int __init ntcore_init(void)
