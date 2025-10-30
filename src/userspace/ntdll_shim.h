@@ -13,7 +13,29 @@
 
 #define NT_DEVICE "/dev/ntcore"
 
-// 從內核模組取得的 ioctl 命令
+// ioctl 命令定義
+#define NT_SYSCALL_BASE 0x1000
+#define NT_VIRTUAL_ALLOC  _IOWR(NT_SYSCALL_BASE, 3, struct nt_mem_info)
+#define NT_VIRTUAL_FREE   _IOWR(NT_SYSCALL_BASE, 4, struct nt_mem_info)
+#define NT_VIRTUAL_PROTECT _IOWR(NT_SYSCALL_BASE, 5, struct nt_protect_info)
+
+// 記憶體資訊結構
+struct nt_mem_info {
+    uint64_t addr;
+    uint64_t size;
+    uint32_t protect;
+    uint32_t type;
+    uint64_t result_addr;  // 用於返回分配的地址
+};
+
+struct nt_protect_info {
+    uint64_t addr;
+    uint64_t size;
+    uint32_t new_protect;
+    uint32_t old_protect;
+};
+
+// 全局變量宣告
 extern int ntcore_fd;
 
 // 基本型別定義 (與 Windows 相容)
@@ -127,6 +149,36 @@ typedef BYTE *PBYTE;
 #define MEM_DECOMMIT 0x4000
 #define MEM_RELEASE 0x8000
 
+// NT 物件類型定義
+typedef enum _NT_OBJECT_TYPE {
+    NT_TYPE_UNKNOWN = 0,
+    NT_TYPE_PROCESS = 1,
+    NT_TYPE_THREAD = 2,
+    NT_TYPE_SECTION = 3,
+    NT_TYPE_EVENT = 4,
+    NT_TYPE_MUTANT = 5,
+    NT_TYPE_SEMAPHORE = 6,
+    NT_TYPE_TIMER = 7,
+    NT_TYPE_FILE = 8,
+    NT_TYPE_MEMORY = 9,      // 用於記憶體管理物件
+} NT_OBJECT_TYPE;
+
+// 物件管理相關 ioctl 命令
+#define NT_CREATE_OBJECT  _IOWR(NT_SYSCALL_BASE, 6, struct _NT_OBJECT_CREATE_INFO)
+#define NT_CLOSE_OBJECT   _IOWR(NT_SYSCALL_BASE, 7, struct _NT_OBJECT_CLOSE_INFO)
+
+// 物件創建資訊結構
+typedef struct _NT_OBJECT_CREATE_INFO {
+    NT_OBJECT_TYPE type;
+    uint64_t initial_params;
+    uint64_t handle;  // 輸出：創建的物件句柄
+} NT_OBJECT_CREATE_INFO, *PNT_OBJECT_CREATE_INFO;
+
+// 物件關閉資訊結構
+typedef struct _NT_OBJECT_CLOSE_INFO {
+    uint64_t handle;
+} NT_OBJECT_CLOSE_INFO, *PNT_OBJECT_CLOSE_INFO;
+
 // NT API 函數原型 (shim 實現)
 NTSTATUS NtAllocateVirtualMemory(
     HANDLE ProcessHandle,
@@ -168,7 +220,25 @@ NTSTATUS NtWriteFile(
     PULONG Key
 );
 
-// TODO: 實作更多 NT API 函數
+NTSTATUS NtProtectVirtualMemory(
+    HANDLE ProcessHandle,
+    PVOID *BaseAddress,
+    PSIZE_T RegionSize,
+    ULONG NewProtect,
+    PULONG OldProtect
+);
+
+NTSTATUS NtCreateObject(
+    POBJECT_ATTRIBUTES ObjectAttributes,
+    NT_OBJECT_TYPE ObjectType,
+    PVOID ObjectBody,
+    ACCESS_MASK GrantedAccess,
+    HANDLE *OutHandle
+);
+
+NTSTATUS NtClose(
+    HANDLE Handle
+);
 
 // 初始化和清理函數
 int init_ntdll_shim();
